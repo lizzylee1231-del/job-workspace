@@ -248,13 +248,13 @@ textarea{min-height:64px;resize:vertical}
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-const STAGES=["待投递","已投递","简历评估","笔试","一面","二面","HR 面","Offer","未通过","不考虑"];
-const FUNNEL=["已投递","简历评估","笔试","一面","二面","HR 面","Offer"];
+const STAGES=["待投递","已投递","简历评估","面试中","Offer","未通过","不考虑"];
+const FUNNEL=["已投递","简历评估","面试中","Offer"];
 const FITS=["✅ 够得上","⚠️ 可以冲","❌ 先放放"];
 const DIRECTIONS=["AI 产品","AI 评测","AI 陪伴","内容策划","内容/科学运营","其他"];
-const INTERVIEW_STAGES=["一面","二面","HR 面"];
+const INTERVIEW_STAGES=["面试中"];
 const CHANNELS=["BOSS直聘","官网","内推","招聘平台","其他"];
-const EVTYPES=["笔试","一面","二面","HR 面","其他"];
+const EVTYPES=["笔试","一面","二面","三面","业务面","终面","HR 面","其他"];
 const QTYPES=["专业题","行为题","案例题","背景题","其他"];
 const STALE_DAYS=7;
 const S={tab:location.hash==="#reviews"?"reviews":location.hash==="#offers"?"offers":"apps",view:"list",calMonth:null,apps:[],reviews:[],offers:[],rvCo:"",rvType:"",editable:true};
@@ -299,11 +299,11 @@ async function loadAll(){
 function dshift(n,t){const d=new Date();d.setDate(d.getDate()+n);const s=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");return t?s+"T"+t:s}
 function demoData(){return{
   apps:[
-    {id:"d1",company:"星图智能（虚构）",role:"AI 产品经理",city:"新加坡",channel:"内推",appliedAt:dshift(-16),stage:"一面",nextStep:"一面：产品 sense + 项目深挖",nextAt:dshift(5,"14:00"),notes:"JD 侧重 Agent 落地",events:[{type:"笔试",at:dshift(-12,"10:00"),dur:60},{type:"一面",at:dshift(5,"14:00"),dur:60}],history:["已投递","简历评估","笔试"],progressAt:dshift(-9)},
-    {id:"d2",company:"云帆科技（虚构）",role:"Forward Deployed Engineer",city:"新加坡",channel:"官网",appliedAt:dshift(-10),stage:"二面",nextStep:"二面：系统设计",nextAt:dshift(5,"14:30"),notes:"和星图一面时间冲突，需改期",events:[{type:"一面",at:dshift(-3,"11:00"),dur:45},{type:"二面",at:dshift(5,"14:30"),dur:60}],history:["已投递","简历评估","一面"],progressAt:dshift(-3)},
+    {id:"d1",company:"星图智能（虚构）",role:"AI 产品经理",city:"新加坡",channel:"内推",appliedAt:dshift(-16),stage:"面试中",nextStep:"一面：产品 sense + 项目深挖",nextAt:dshift(5,"14:00"),notes:"JD 侧重 Agent 落地",events:[{type:"笔试",at:dshift(-12,"10:00"),dur:60},{type:"一面",at:dshift(5,"14:00"),dur:60}],history:["已投递","简历评估"],progressAt:dshift(-9)},
+    {id:"d2",company:"云帆科技（虚构）",role:"Forward Deployed Engineer",city:"新加坡",channel:"官网",appliedAt:dshift(-10),stage:"面试中",nextStep:"二面：系统设计",nextAt:dshift(5,"14:30"),notes:"和星图一面时间冲突，需改期",events:[{type:"一面",at:dshift(-3,"11:00"),dur:45},{type:"二面",at:dshift(5,"14:30"),dur:60}],history:["已投递","简历评估"],progressAt:dshift(-3)},
     {id:"d3",company:"远山模型（虚构）",role:"Agent 产品经理",city:"北京",channel:"招聘平台",appliedAt:dshift(-20),stage:"已投递",nextStep:"等 HR 回复",nextAt:"",notes:"",events:[],history:[],progressAt:dshift(-20)},
-    {id:"d4",company:"海湾出行（虚构）",role:"Senior PM, AI Platform",city:"新加坡",channel:"内推",appliedAt:dshift(-40),stage:"Offer",nextStep:"周五前回复 offer",nextAt:dshift(2,"18:00"),notes:"",events:[{type:"HR 面",at:dshift(-8,"16:00"),dur:30}],history:["已投递","简历评估","一面","二面","HR 面"],progressAt:dshift(-4)},
-    {id:"d5",company:"青石数据（虚构）",role:"AI 解决方案架构师",city:"上海",channel:"官网",appliedAt:dshift(-30),stage:"未通过",nextStep:"",nextAt:"",notes:"二面后未通过",events:[],history:["已投递","简历评估","一面","二面"],progressAt:dshift(-14)}],
+    {id:"d4",company:"海湾出行（虚构）",role:"Senior PM, AI Platform",city:"新加坡",channel:"内推",appliedAt:dshift(-40),stage:"Offer",nextStep:"周五前回复 offer",nextAt:dshift(2,"18:00"),notes:"",events:[{type:"HR 面",at:dshift(-8,"16:00"),dur:30}],history:["已投递","简历评估","面试中"],progressAt:dshift(-4)},
+    {id:"d5",company:"青石数据（虚构）",role:"AI 解决方案架构师",city:"上海",channel:"官网",appliedAt:dshift(-30),stage:"未通过",nextStep:"",nextAt:"",notes:"二面后未通过",events:[],history:["已投递","简历评估","面试中"],progressAt:dshift(-14)}],
   reviews:[
     {id:"r1",appId:"d1",round:"笔试",date:dshift(-12),questions:[{type:"案例题",q:"为一款出海 AI 助手设计首月留存提升方案",answer:"先拆新用户激活路径，找到首个价值时刻，再设计引导和召回",weak:"没给出具体指标口径和实验设计"},{type:"专业题",q:"如何评估一个 Agent 的任务完成率",answer:"按任务类型定义成功标准，人工抽检 + 自动评测",weak:""}],improve:"案例题先说清目标指标和衡量方式"},
     {id:"r2",appId:"d2",round:"一面",date:dshift(-3),questions:[{type:"行为题",q:"讲一次推动跨团队项目落地的经历",answer:"用电商项目举例，讲对齐目标和节奏",weak:"结果数据说得不够具体"},{type:"背景题",q:"为什么从产品转向 FDE",answer:"工程 + 业务的复合背景，适合一线落地",weak:""}],improve:"行为题准备 2 个带数字的 STAR 故事"}],
@@ -454,7 +454,7 @@ function renderApps(){
   h+=S.view==="board"?boardHTML():listHTML();
   return h;
 }
-function progBar(a){const steps=7;let i=a.stage==="未通过"||a.stage==="不考虑"?Math.max(...(a.history||[]).map(h=>FUNNEL.indexOf(h)),0):FUNNEL.indexOf(a.stage);
+function progBar(a){const steps=FUNNEL.length;let i=a.stage==="未通过"||a.stage==="不考虑"?Math.max(...(a.history||[]).map(h=>FUNNEL.indexOf(h)),0):FUNNEL.indexOf(a.stage);
   const cls=a.stage==="未通过"||a.stage==="不考虑"?"bad":a.stage==="Offer"?"offer":"";
   return `<div class="prog ${cls}" title="${esc(a.stage)}">${Array.from({length:steps},(_,k)=>`<i class="${k<=i?"on":""}"></i>`).join("")}</div>`}
 const stageChip=a=>`<span class="chip ${a.stage==="未通过"||a.stage==="不考虑"?"bad":a.stage==="Offer"?"good":"stage"}">${esc(a.stage)}</span>`;
@@ -476,7 +476,7 @@ function boardHTML(){
   <p class="note">拖动卡片到其他列即可改阶段；手机上用卡片里的「下一阶段 →」。</p>`;
 }
 function cardHTML(a){
-  const i=STAGES.indexOf(a.stage);const canNext=i<7;const rc=rvCount(a);
+  const i=STAGES.indexOf(a.stage);const canNext=i<STAGES.indexOf("Offer");const rc=rvCount(a);
   return `<div class="card ${isStale(a)?"stale":""}" draggable="true" tabindex="0" ondragstart="event.dataTransfer.setData('text/plain','${a.id}')" onclick="if(!event.target.closest('button'))editApp('${a.id}')">
     <div class="ahead"><div style="min-width:0;flex:1"><div class="co one">${esc(a.company.replace(/（.*?）/,""))}</div><div class="sub one">${esc(a.role)} · ${esc(a.city)}</div></div>${canNext?`<button class="nextbtn" onclick="moveStage('${a.id}','${STAGES[i+1]}')" title="移到「${STAGES[i+1]}」" aria-label="移到下一阶段：${STAGES[i+1]}">→</button>`:""}</div>
     ${progBar(a)}${a.nextStep?`<div class="next one">${esc(a.nextStep)}</div>`:""}
@@ -566,7 +566,7 @@ window.editReview=(id,appId)=>{
 function drawReview(isNew){const r=draft;
   openModal(`<h2>${isNew?"写复盘":"编辑复盘"}</h2><div class="grid2">
   <label class="f full">关联投递<select id="r_app">${S.apps.map(a=>`<option value="${a.id}" ${a.id===r.appId?"selected":""}>${esc(appLabel(a))}</option>`).join("")}</select></label>
-  <label class="f">轮次<select id="r_round">${opt(["笔试","一面","二面","三面","HR 面","其他"],r.round)}</select></label>
+  <label class="f">轮次<select id="r_round">${opt(["笔试","一面","二面","三面","业务面","终面","HR 面","其他"],r.round)}</select></label>
   <label class="f">日期<input type="date" id="r_date" value="${esc(r.date)}"></label></div>
   <div class="row" style="justify-content:space-between"><b>被问到的问题</b><button class="btn sm" onclick="syncRv();draft.questions.push({type:'专业题',q:'',answer:'',weak:''});drawReview(${isNew})">＋ 添加问题</button></div>
   <div class="sublist">${r.questions.map((q,i)=>`<div class="subitem"><div class="row"><select id="q_t${i}" class="btn sm">${opt(QTYPES,q.type)}</select><span class="spacer"></span><button class="btn sm del" onclick="syncRv();draft.questions.splice(${i},1);drawReview(${isNew})">删除</button></div>
