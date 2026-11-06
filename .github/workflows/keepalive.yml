@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          curl -fsS "https://ezflzkzmdmrxaruflknc.supabase.co/rest/v1/items?select=id&limit=1" \
-            -H "apikey: sb_publishable_GbGmniMN7jbSr7AghMXSaA_AwSr120s" > /dev/null
+          curl -fsS "https://ibkclshcwtvhplyygufc.supabase.co/rest/v1/items?select=id&limit=1" \
+            -H "apikey: sb_publishable_jyS0R1FImB3MXuXyRfRxOA_r6r-vYqG" > /dev/null

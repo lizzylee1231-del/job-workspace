@@ -267,8 +267,8 @@ const fmtDT=s=>s?s.replace("T"," "):"";
 const toast=m=>{const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(t._h);t._h=setTimeout(()=>t.hidden=true,1800)};
 
 /* ---------- storage: Supabase (owner) or in-page demo data ---------- */
-const SB_URL="https://ezflzkzmdmrxaruflknc.supabase.co";
-const SB_KEY="sb_publishable_GbGmniMN7jbSr7AghMXSaA_AwSr120s";
+const SB_URL="https://ibkclshcwtvhplyygufc.supabase.co";
+const SB_KEY="sb_publishable_jyS0R1FImB3MXuXyRfRxOA_r6r-vYqG";
 const sb=window.supabase.createClient(SB_URL,SB_KEY);
 const HOME=location.origin+location.pathname;
 const COLS=["apps","reviews","offers"];let USER=null,DEMO=false;
